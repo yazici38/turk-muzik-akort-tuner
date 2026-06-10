@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tuner">
+<meta name="theme-color" content="#1a1a1a">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%230f0f0f' width='192' height='192'/><circle cx='96' cy='96' r='70' fill='%231a1a1a' stroke='%233b82f6' stroke-width='4'/><text x='96' y='120' font-size='80' font-weight='bold' fill='%233b82f6' text-anchor='middle' font-family='sans-serif'>🎵</text></svg>">
 <title>Türk Müziği Tuner</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -169,31 +175,35 @@ canvas.hist-c{width:100%;height:64px;border-radius:10px;background:#111;display:
 </div>
 
 <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js').catch(err => console.log('SW registration failed:', err));
+}
+
 const MAKAMLAR={
-  rast:{name:"Rast",karar:["G","A","C","D"],notes:[{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"E+",f:322.5,tr:"Mi (Rast)"},{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"},{n:"A+",f:435.0,tr:"La (Rast)"},{n:"Bb",f:466.16,tr:"Sib"}]},
-  ussak:{name:"Ussak",karar:["A","D","G"],notes:[{n:"A",f:220.0,tr:"La"},{n:"Bb-",f:228.4,tr:"Sib (Ussak)"},{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"E",f:329.63,tr:"Mi"},{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"}]},
-  hicaz:{name:"Hicaz",karar:["D","A","G"],notes:[{n:"D",f:293.66,tr:"Re"},{n:"Eb",f:311.13,tr:"Mib"},{n:"F#",f:369.5,tr:"Fa# (Hicaz)"},{n:"G",f:392.0,tr:"Sol"},{n:"A",f:440.0,tr:"La"},{n:"Bb",f:466.16,tr:"Sib"},{n:"C",f:523.25,tr:"Do"}]},
-  karcighar:{name:"Karcighar",karar:["A","D"],notes:[{n:"A",f:220.0,tr:"La"},{n:"Bb-",f:228.4,tr:"Sib (Ussak)"},{n:"C#",f:277.18,tr:"Do# (Karcighar)"},{n:"D",f:293.66,tr:"Re"},{n:"E",f:329.63,tr:"Mi"},{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"}]},
-  segah:{name:"Segah",karar:["E","B","A"],notes:[{n:"E+",f:315.0,tr:"Mi (Segah)"},{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"},{n:"A+",f:435.0,tr:"La (Rast)"},{n:"B",f:493.88,tr:"Si"},{n:"C",f:523.25,tr:"Do"},{n:"D",f:587.33,tr:"Re"}]},
-  nihavend:{name:"Nihavend",karar:["G","D","A"],notes:[{n:"G",f:196.0,tr:"Sol"},{n:"A",f:220.0,tr:"La"},{n:"Bb",f:233.08,tr:"Sib"},{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"Eb",f:311.13,tr:"Mib"},{n:"F",f:349.23,tr:"Fa"}]},
-  kurdi:{name:"Kurdi",karar:["A","D","G"],notes:[{n:"A",f:220.0,tr:"La"},{n:"Bb",f:233.08,tr:"Sib"},{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"Eb",f:311.13,tr:"Mib"},{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"}]},
-  buselik:{name:"Buselik",karar:["A","E","B"],notes:[{n:"A",f:220.0,tr:"La"},{n:"B",f:246.94,tr:"Si"},{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"E",f:329.63,tr:"Mi"},{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"}]},
-  huseyni:{name:"Huseyni",karar:["A","E","D"],notes:[{n:"A",f:220.0,tr:"La"},{n:"Bb-",f:228.4,tr:"Sib (Ussak)"},{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"E+",f:322.5,tr:"Mi (Huseyni)"},{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"}]},
-  muhayyer:{name:"Muhayyer",karar:["A","E"],notes:[{n:"A",f:220.0,tr:"La"},{n:"Bb-",f:228.4,tr:"Sib (Ussak)"},{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"E+",f:322.5,tr:"Mi (Huseyni)"},{n:"F",f:349.23,tr:"Fa"},{n:"G#",f:415.3,tr:"Sol# (Muhayyer)"}]},
-  saba:{name:"Saba",karar:["D","A"],notes:[{n:"D",f:293.66,tr:"Re"},{n:"Eb+",f:304.5,tr:"Mib (Saba)"},{n:"F",f:349.23,tr:"Fa"},{n:"Gb",f:369.99,tr:"Solb"},{n:"Ab",f:415.3,tr:"Lab"},{n:"Bb",f:466.16,tr:"Sib"},{n:"C",f:523.25,tr:"Do"}]},
-  acem:{name:"Acem",karar:["F","C","A#"],notes:[{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"},{n:"Ab",f:415.3,tr:"Lab"},{n:"Bb",f:466.16,tr:"Sib"},{n:"C",f:523.25,tr:"Do"},{n:"Db",f:554.37,tr:"Reb"},{n:"Eb",f:622.25,tr:"Mib"}]},
-  neva:{name:"Neva",karar:["G","D","A"],notes:[{n:"G",f:196.0,tr:"Sol"},{n:"Ab+",f:207.5,tr:"Lab (Rast)"},{n:"Bb",f:233.08,tr:"Sib"},{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"Eb+",f:304.5,tr:"Mib (Neva)"},{n:"F",f:349.23,tr:"Fa"}]},
-  cargah:{name:"Cargah",karar:["C","G","F"],notes:[{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"E",f:329.63,tr:"Mi"},{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"},{n:"A",f:440.0,tr:"La"},{n:"B",f:493.88,tr:"Si"}]},
-  bayati:{name:"Bayati",karar:["D","A","G"],notes:[{n:"D",f:293.66,tr:"Re"},{n:"Eb+",f:304.5,tr:"Mib (Bayati)"},{n:"F",f:349.23,tr:"Fa"},{n:"G",f:392.0,tr:"Sol"},{n:"A",f:440.0,tr:"La"},{n:"Bb",f:466.16,tr:"Sib"},{n:"C",f:523.25,tr:"Do"}]},
-  huzzam:{name:"Huzzam",karar:["E","B","A"],notes:[{n:"E+",f:315.0,tr:"Mi (Segah)"},{n:"F#",f:370.0,tr:"Fa# (Hicaz)"},{n:"G",f:392.0,tr:"Sol"},{n:"Ab+",f:435.0,tr:"Lab (Rast)"},{n:"B",f:493.88,tr:"Si"},{n:"C",f:523.25,tr:"Do"},{n:"D",f:587.33,tr:"Re"}]},
-  suznak:{name:"Suznak",karar:["G","D"],notes:[{n:"G",f:196.0,tr:"Sol"},{n:"A",f:220.0,tr:"La"},{n:"Bb",f:233.08,tr:"Sib"},{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"Eb",f:311.13,tr:"Mib"},{n:"F#",f:370.0,tr:"Fa# (Suznak)"}]},
-  sultaniyegah:{name:"Sultaniyegah",karar:["G","D"],notes:[{n:"G",f:196.0,tr:"Sol"},{n:"Ab+",f:207.5,tr:"Lab (Rast)"},{n:"Bb",f:233.08,tr:"Sib"},{n:"C",f:261.63,tr:"Do"},{n:"D",f:293.66,tr:"Re"},{n:"Eb",f:311.13,tr:"Mib"},{n:"F#",f:370.0,tr:"Fa# (Sultaniyegah)"}]}
+  rast:{name:"Rast",karar:["Sol","La","Do","Re"],notes:[{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mi (Rast)",f:322.5,tr:"Mi (Rast)"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"},{n:"La (Rast)",f:435.0,tr:"La (Rast)"},{n:"Sib",f:466.16,tr:"Sib"}]},
+  ussak:{name:"Ussak",karar:["La","Re","Sol"],notes:[{n:"La",f:220.0,tr:"La"},{n:"Sib (Ussak)",f:228.4,tr:"Sib (Ussak)"},{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mi",f:329.63,tr:"Mi"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"}]},
+  hicaz:{name:"Hicaz",karar:["Re","La","Sol"],notes:[{n:"Re",f:293.66,tr:"Re"},{n:"Mib",f:311.13,tr:"Mib"},{n:"Fa# (Hicaz)",f:369.5,tr:"Fa# (Hicaz)"},{n:"Sol",f:392.0,tr:"Sol"},{n:"La",f:440.0,tr:"La"},{n:"Sib",f:466.16,tr:"Sib"},{n:"Do",f:523.25,tr:"Do"}]},
+  karcighar:{name:"Karcighar",karar:["La","Re"],notes:[{n:"La",f:220.0,tr:"La"},{n:"Sib (Ussak)",f:228.4,tr:"Sib (Ussak)"},{n:"Do# (Karcighar)",f:277.18,tr:"Do# (Karcighar)"},{n:"Re",f:293.66,tr:"Re"},{n:"Mi",f:329.63,tr:"Mi"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"}]},
+  segah:{name:"Segah",karar:["Mi","Si","La"],notes:[{n:"Mi (Segah)",f:315.0,tr:"Mi (Segah)"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"},{n:"La (Rast)",f:435.0,tr:"La (Rast)"},{n:"Si",f:493.88,tr:"Si"},{n:"Do",f:523.25,tr:"Do"},{n:"Re",f:587.33,tr:"Re"}]},
+  nihavend:{name:"Nihavend",karar:["Sol","Re","La"],notes:[{n:"Sol",f:196.0,tr:"Sol"},{n:"La",f:220.0,tr:"La"},{n:"Sib",f:233.08,tr:"Sib"},{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mib",f:311.13,tr:"Mib"},{n:"Fa",f:349.23,tr:"Fa"}]},
+  kurdi:{name:"Kurdi",karar:["La","Re","Sol"],notes:[{n:"La",f:220.0,tr:"La"},{n:"Sib",f:233.08,tr:"Sib"},{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mib",f:311.13,tr:"Mib"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"}]},
+  buselik:{name:"Buselik",karar:["La","Mi","Si"],notes:[{n:"La",f:220.0,tr:"La"},{n:"Si",f:246.94,tr:"Si"},{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mi",f:329.63,tr:"Mi"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"}]},
+  huseyni:{name:"Huseyni",karar:["La","Mi","Re"],notes:[{n:"La",f:220.0,tr:"La"},{n:"Sib (Ussak)",f:228.4,tr:"Sib (Ussak)"},{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mi (Huseyni)",f:322.5,tr:"Mi (Huseyni)"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"}]},
+  muhayyer:{name:"Muhayyer",karar:["La","Mi"],notes:[{n:"La",f:220.0,tr:"La"},{n:"Sib (Ussak)",f:228.4,tr:"Sib (Ussak)"},{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mi (Huseyni)",f:322.5,tr:"Mi (Huseyni)"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol# (Muhayyer)",f:415.3,tr:"Sol# (Muhayyer)"}]},
+  saba:{name:"Saba",karar:["Re","La"],notes:[{n:"Re",f:293.66,tr:"Re"},{n:"Mib (Saba)",f:304.5,tr:"Mib (Saba)"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Solb",f:369.99,tr:"Solb"},{n:"Lab",f:415.3,tr:"Lab"},{n:"Sib",f:466.16,tr:"Sib"},{n:"Do",f:523.25,tr:"Do"}]},
+  acem:{name:"Acem",karar:["Fa","Do","La#"],notes:[{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"},{n:"Lab",f:415.3,tr:"Lab"},{n:"Sib",f:466.16,tr:"Sib"},{n:"Do",f:523.25,tr:"Do"},{n:"Reb",f:554.37,tr:"Reb"},{n:"Mib",f:622.25,tr:"Mib"}]},
+  neva:{name:"Neva",karar:["Sol","Re","La"],notes:[{n:"Sol",f:196.0,tr:"Sol"},{n:"Lab (Rast)",f:207.5,tr:"Lab (Rast)"},{n:"Sib",f:233.08,tr:"Sib"},{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mib (Neva)",f:304.5,tr:"Mib (Neva)"},{n:"Fa",f:349.23,tr:"Fa"}]},
+  cargah:{name:"Cargah",karar:["Do","Sol","Fa"],notes:[{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mi",f:329.63,tr:"Mi"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"},{n:"La",f:440.0,tr:"La"},{n:"Si",f:493.88,tr:"Si"}]},
+  bayati:{name:"Bayati",karar:["Re","La","Sol"],notes:[{n:"Re",f:293.66,tr:"Re"},{n:"Mib (Bayati)",f:304.5,tr:"Mib (Bayati)"},{n:"Fa",f:349.23,tr:"Fa"},{n:"Sol",f:392.0,tr:"Sol"},{n:"La",f:440.0,tr:"La"},{n:"Sib",f:466.16,tr:"Sib"},{n:"Do",f:523.25,tr:"Do"}]},
+  huzzam:{name:"Huzzam",karar:["Mi","Si","La"],notes:[{n:"Mi (Segah)",f:315.0,tr:"Mi (Segah)"},{n:"Fa# (Hicaz)",f:370.0,tr:"Fa# (Hicaz)"},{n:"Sol",f:392.0,tr:"Sol"},{n:"Lab (Rast)",f:435.0,tr:"Lab (Rast)"},{n:"Si",f:493.88,tr:"Si"},{n:"Do",f:523.25,tr:"Do"},{n:"Re",f:587.33,tr:"Re"}]},
+  suznak:{name:"Suznak",karar:["Sol","Re"],notes:[{n:"Sol",f:196.0,tr:"Sol"},{n:"La",f:220.0,tr:"La"},{n:"Sib",f:233.08,tr:"Sib"},{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mib",f:311.13,tr:"Mib"},{n:"Fa# (Suznak)",f:370.0,tr:"Fa# (Suznak)"}]},
+  sultaniyegah:{name:"Sultaniyegah",karar:["Sol","Re"],notes:[{n:"Sol",f:196.0,tr:"Sol"},{n:"Lab (Rast)",f:207.5,tr:"Lab (Rast)"},{n:"Sib",f:233.08,tr:"Sib"},{n:"Do",f:261.63,tr:"Do"},{n:"Re",f:293.66,tr:"Re"},{n:"Mib",f:311.13,tr:"Mib"},{n:"Fa# (Sultaniyegah)",f:370.0,tr:"Fa# (Sultaniyegah)"}]}
 };
 
 const CHROMATIC=[
-  {n:"C",tr:"Do",f:261.63},{n:"C#",tr:"Do#",f:277.18},{n:"D",tr:"Re",f:293.66},{n:"D#",tr:"Re#",f:311.13},
-  {n:"E",tr:"Mi",f:329.63},{n:"F",tr:"Fa",f:349.23},{n:"F#",tr:"Fa#",f:369.99},{n:"G",tr:"Sol",f:392.00},
-  {n:"G#",tr:"Sol#",f:415.30},{n:"A",tr:"La",f:440.00},{n:"A#",tr:"Sib",f:466.16},{n:"B",tr:"Si",f:493.88}
+  {n:"Do",tr:"Do",f:261.63},{n:"Do#",tr:"Do#",f:277.18},{n:"Re",tr:"Re",f:293.66},{n:"Re#",tr:"Re#",f:311.13},
+  {n:"Mi",tr:"Mi",f:329.63},{n:"Fa",tr:"Fa",f:349.23},{n:"Fa#",tr:"Fa#",f:369.99},{n:"Sol",tr:"Sol",f:392.00},
+  {n:"Sol#",tr:"Sol#",f:415.30},{n:"La",tr:"La",f:440.00},{n:"La#",tr:"Sib",f:466.16},{n:"Si",tr:"Si",f:493.88}
 ];
 
 const DORTLU=5;
@@ -205,7 +215,7 @@ function hesaplaTeller(kararN){
 function makamlarForKarar(n){return Object.values(MAKAMLAR).filter(m=>m.karar.includes(n)).map(m=>m.name);}
 
 let audioCtx=null,analyser=null,buf=null,stream=null,rafId=null,running=false;
-let histData=[],selectedStr=null,currentKarar="B";
+let histData=[],selectedStr=null,currentKarar="Si";
 const CENTS_OK=18,KOMA=22.641;
 
 function detectPitch(buf,sr){
@@ -276,8 +286,8 @@ function renderPills(){
 function renderMakamOneri(){
   const m=MAKAMLAR[document.getElementById('makam').value];
   document.getElementById('makamOneri').innerHTML=m.karar.map(k=>{
-    const c=CHROMATIC.find(x=>x.n===k);
-    return `<span class="oneri-tag" onclick="goToKarar('${k}')">${c?c.tr:k}</span>`;
+    const c=CHROMATIC.find(x=>x.tr===k);
+    return `<span class="oneri-tag" onclick="goToKarar('${c.n}')">${c?c.tr:k}</span>`;
   }).join('');
 }
 function onMakamChange(){renderPills();renderMakamOneri();}
