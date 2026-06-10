@@ -27,33 +27,35 @@ select{width:100%;padding:11px 12px;border:1px solid #333;border-radius:10px;bac
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.875rem;}
 .btn-mic{width:100%;padding:16px;font-size:17px;font-weight:600;border-radius:14px;cursor:pointer;border:1px solid #333;background:#1a1a1a;color:#f0f0f0;margin-bottom:.875rem;}
 .btn-mic.active{background:#3f0000;color:#ff6b6b;border-color:#7f0000;}
-.meter{text-align:center;padding:.5rem 0;}
-.note-big{font-size:72px;font-weight:200;line-height:1;letter-spacing:-3px;min-height:76px;}
-.note-tr{font-size:15px;color:#aaa;margin-top:6px;min-height:20px;}
-.freq-val{font-size:20px;font-weight:300;color:#888;margin-top:8px;min-height:26px;}
-.needle-wrap{margin:1.2rem auto;width:100%;position:relative;height:56px;}
-.n-track{width:100%;height:10px;background:#1e1e1e;border-radius:5px;position:absolute;top:20px;overflow:hidden;}
-.n-zone{position:absolute;top:0;left:calc(50% - 9%);width:18%;height:100%;background:rgba(16,185,129,.12);}
-.n-fill{position:absolute;top:0;left:50%;height:100%;width:6px;border-radius:3px;background:#444;transform:translateX(-50%);transition:left .07s,background .1s;}
-.n-center{position:absolute;top:14px;left:50%;width:2px;height:28px;background:#333;transform:translateX(-50%);border-radius:1px;}
-.n-lbl{position:absolute;top:38px;font-size:12px;color:#555;}
-.n-lbl.l{left:0;}.n-lbl.c{left:50%;transform:translateX(-50%);color:#888;}.n-lbl.r{right:0;}
-.badge{display:inline-block;padding:8px 26px;border-radius:99px;font-size:15px;font-weight:600;margin-top:10px;}
-.b-ok{background:#052e1a;color:#34d399;border:1px solid #065f46;}
-.b-lo{background:#2d1f00;color:#fbbf24;border:1px solid #78350f;}
-.b-hi{background:#2d0000;color:#f87171;border:1px solid #7f1d1d;}
-.b-idle{background:#1a1a1a;color:#555;border:1px solid #2a2a2a;}
-.koma-row{display:flex;align-items:center;gap:10px;margin-top:1rem;}
-.koma-lbl{font-size:12px;color:#555;white-space:nowrap;text-transform:uppercase;letter-spacing:.4px;}
-.koma-track{flex:1;height:6px;background:#1e1e1e;border-radius:3px;position:relative;}
-.koma-fill{position:absolute;top:0;left:50%;height:100%;width:5px;border-radius:2.5px;background:#444;transform:translateX(-50%);transition:left .1s,background .1s;}
-.koma-val{font-size:13px;color:#888;min-width:70px;text-align:right;}
-.hist-wrap{margin-top:1rem;}
-.hist-lbl{font-size:12px;color:#555;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
-canvas.hist-c{width:100%;height:64px;border-radius:10px;background:#111;display:block;}
+.meter{text-align:center;padding:1.5rem 0;}
+.meter-main{background:#111;border-radius:20px;padding:1.5rem;margin-bottom:1rem;}
+.note-display-section{margin-bottom:1.5rem;}
+.note-label{font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.note-big{font-size:56px;font-weight:200;line-height:1;letter-spacing:-2px;min-height:60px;}
+.note-freq{font-size:16px;color:#888;margin-top:4px;}
+.needle-wrap{margin:1.5rem auto;width:100%;position:relative;height:70px;}
+.n-track{width:100%;height:12px;background:#1e1e1e;border-radius:6px;position:absolute;top:28px;overflow:hidden;}
+.n-zone{position:absolute;top:0;left:calc(50% - 10%);width:20%;height:100%;background:rgba(16,185,129,.15);}
+.n-fill{position:absolute;top:0;left:50%;height:100%;width:8px;border-radius:4px;background:#444;transform:translateX(-50%);transition:left .08s,background .1s;}
+.n-center{position:absolute;top:22px;left:50%;width:3px;height:26px;background:#3b82f6;transform:translateX(-50%);border-radius:2px;}
+.n-lbl{position:absolute;top:48px;font-size:11px;color:#555;font-weight:500;}
+.n-lbl.l{left:0;}.n-lbl.c{left:50%;transform:translateX(-50%);color:#3b82f6;}.n-lbl.r{right:0;}
+.badge{display:inline-block;padding:12px 32px;border-radius:99px;font-size:16px;font-weight:700;margin-top:12px;}
+.b-ok{background:#052e1a;color:#34d399;border:2px solid #065f46;}
+.b-lo{background:#2d1f00;color:#fbbf24;border:2px solid #78350f;}
+.b-hi{background:#2d0000;color:#f87171;border:2px solid #7f1d1d;}
+.b-idle{background:#1a1a1a;color:#555;border:2px solid #2a2a2a;}
+.koma-row{display:flex;align-items:center;gap:12px;margin-top:1.2rem;}
+.koma-lbl{font-size:11px;color:#666;white-space:nowrap;text-transform:uppercase;letter-spacing:.4px;font-weight:500;}
+.koma-circle{width:60px;height:60px;border-radius:50%;background:#111;border:3px solid #2a2a2a;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.koma-fill-circle{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:50%;border:3px solid #444;clip-path:polygon(50% 0%,100% 0%,100% 100%,50% 100%);transition:border-color .1s;}
+.koma-val{font-size:14px;font-weight:600;color:#f0f0f0;}
+.hist-wrap{margin-top:1.2rem;}
+.hist-lbl{font-size:11px;color:#666;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;font-weight:500;}
+canvas.hist-c{width:100%;height:80px;border-radius:12px;background:#111;display:block;border:1px solid #2a2a2a;}
 .section-lbl{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.5px;font-weight:500;margin-bottom:8px;}
-.pill-grid{display:flex;flex-wrap:wrap;gap:5px;}
-.pill{font-size:12px;padding:5px 11px;border-radius:99px;background:#111;border:1px solid #2a2a2a;color:#888;}
+.pill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;}
+.pill{font-size:11px;padding:8px 10px;border-radius:10px;background:#111;border:1px solid #2a2a2a;color:#888;text-align:center;}
 .pill.lit{background:#1e3a5f;color:#93c5fd;border-color:#3b82f6;}
 .divider{height:1px;background:#222;margin:1rem 0;}
 .oneri-lbl{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.5px;font-weight:500;margin-bottom:8px;}
@@ -81,6 +83,11 @@ canvas.hist-c{width:100%;height:64px;border-radius:10px;background:#111;display:
 .ko-list{display:flex;flex-wrap:wrap;gap:5px;}
 .ko-tag{font-size:13px;padding:5px 12px;border-radius:99px;background:#1a0d2e;border:1px solid #5b21b6;color:#a78bfa;}
 .info-row{font-size:12px;color:#444;text-align:center;margin-top:.75rem;}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+.comp-item{background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:1rem;text-align:center;}
+.comp-label{font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;font-weight:500;}
+.comp-note{font-size:32px;font-weight:600;color:#3b82f6;line-height:1;}
+.comp-freq{font-size:12px;color:#888;margin-top:4px;}
 </style>
 </head>
 <body>
@@ -115,26 +122,40 @@ canvas.hist-c{width:100%;height:64px;border-radius:10px;background:#111;display:
       </div>
     </div>
     <button class="btn-mic" id="btnMic" onclick="toggleMic()">🎙 Mikrofonu Başlat</button>
+    
+    <!-- ÖLÇÜM EKRANI - ÜSTE TAŞINDI -->
     <div class="card meter">
-      <div class="note-big" id="noteDisplay">–</div>
-      <div class="note-tr" id="noteTr">Bir ses çal</div>
-      <div class="freq-val" id="freqDisplay"></div>
-      <div class="needle-wrap">
-        <div class="n-track"><div class="n-zone"></div><div class="n-fill" id="needleFill"></div></div>
-        <div class="n-center"></div>
-        <span class="n-lbl l">♭ Pes</span><span class="n-lbl c">✓</span><span class="n-lbl r">Tiz ♯</span>
-      </div>
-      <div class="badge b-idle" id="statusBadge">Bekleniyor</div>
-      <div class="koma-row">
-        <span class="koma-lbl">Koma</span>
-        <div class="koma-track"><div class="koma-fill" id="komaFill"></div></div>
-        <span class="koma-val" id="komaVal">–</span>
-      </div>
-      <div class="hist-wrap">
-        <div class="hist-lbl">Geçmiş (3 sn)</div>
-        <canvas class="hist-c" id="hist" height="64"></canvas>
+      <div class="meter-main">
+        <div class="note-display-section">
+          <div class="note-label">Çalmakta olan nota</div>
+          <div class="note-big" id="noteDisplay">–</div>
+          <div class="note-freq" id="freqDisplay"></div>
+        </div>
+        
+        <div class="needle-wrap">
+          <div class="n-track"><div class="n-zone"></div><div class="n-fill" id="needleFill"></div></div>
+          <div class="n-center"></div>
+          <span class="n-lbl l">♭ Pes</span><span class="n-lbl c">✓</span><span class="n-lbl r">Tiz ♯</span>
+        </div>
+        
+        <div class="badge b-idle" id="statusBadge">Bekleniyor</div>
+        
+        <div class="koma-row">
+          <div class="koma-circle">
+            <div class="koma-fill-circle" id="komaFillCircle"></div>
+            <span class="koma-val" id="komaVal">–</span>
+          </div>
+          <span class="koma-lbl">Koma</span>
+        </div>
+        
+        <div class="hist-wrap">
+          <div class="hist-lbl">Geçmiş (3 sn)</div>
+          <canvas class="hist-c" id="hist" height="80"></canvas>
+        </div>
       </div>
     </div>
+    
+    <!-- MAKAM PERDELERI -->
     <div class="card">
       <div class="section-lbl">Bu makamın perdeleri</div>
       <div class="pill-grid" id="notePills"></div>
@@ -154,18 +175,37 @@ canvas.hist-c{width:100%;height:64px;border-radius:10px;background:#111;display:
     <div class="karar-info" id="kararInfo"></div>
     <button class="btn-mic" id="btnMic2" onclick="toggleMic()">🎙 Mikrofonu Başlat</button>
     <div class="tel-diagram" id="telDiagram"></div>
+    
+    <!-- ÖLÇÜM EKRANI - TEL AKORT -->
     <div class="card meter">
-      <div style="font-size:12px;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.25rem;">Ölçüm</div>
-      <div class="note-big" id="strNoteDisplay">–</div>
-      <div class="note-tr" id="strTrDisplay">Bir tel seç</div>
-      <div class="freq-val" id="strFreqDisplay"></div>
-      <div class="needle-wrap">
-        <div class="n-track"><div class="n-zone"></div><div class="n-fill" id="strNeedleFill"></div></div>
-        <div class="n-center"></div>
-        <span class="n-lbl l">♭ Pes</span><span class="n-lbl c">✓</span><span class="n-lbl r">Tiz ♯</span>
+      <div class="meter-main">
+        <div style="font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.5px;margin-bottom:1rem;font-weight:500;">Ölçüm</div>
+        
+        <!-- KARŞILAŞTIRMA -->
+        <div class="comparison">
+          <div class="comp-item">
+            <div class="comp-label">Çalmakta olan</div>
+            <div class="comp-note" id="strNoteDisplay">–</div>
+            <div class="comp-freq" id="strFreqDisplay2"></div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-label">Hedef nota</div>
+            <div class="comp-note" id="strTargetNote">–</div>
+            <div class="comp-freq" id="strTargetFreq">–</div>
+          </div>
+        </div>
+        
+        <div class="needle-wrap">
+          <div class="n-track"><div class="n-zone"></div><div class="n-fill" id="strNeedleFill"></div></div>
+          <div class="n-center"></div>
+          <span class="n-lbl l">♭ Pes</span><span class="n-lbl c">✓</span><span class="n-lbl r">Tiz ♯</span>
+        </div>
+        
+        <div class="badge b-idle" id="strBadge">Bekleniyor</div>
       </div>
-      <div class="badge b-idle" id="strBadge">Bekleniyor</div>
     </div>
+    
+    <!-- MAKAMLAR -->
     <div class="card">
       <div class="ko-lbl">Bu karar sesiyle okunabilecek makamlar</div>
       <div class="ko-list" id="kararOneri"></div>
@@ -252,7 +292,7 @@ function findClosest(freq,freqs){
 function updateNeedle(cents,fId,bId){
   const fill=document.getElementById(fId),badge=document.getElementById(bId);
   fill.style.left=Math.max(2,Math.min(98,50+(cents/50)*50))+'%';
-  if(Math.abs(cents)<CENTS_OK){fill.style.background='#10b981';badge.className='badge b-ok';badge.textContent='Akortlu';}
+  if(Math.abs(cents)<CENTS_OK){fill.style.background='#10b981';badge.className='badge b-ok';badge.textContent='Akortlu ✓';}
   else if(cents<0){fill.style.background='#f59e0b';badge.className='badge b-lo';badge.textContent='Pes  -'+Math.abs(Math.round(cents))+' sent';}
   else{fill.style.background='#ef4444';badge.className='badge b-hi';badge.textContent='Tiz  +'+Math.round(cents)+' sent';}
 }
@@ -261,14 +301,14 @@ function resetNeedle(fId,bId){
   document.getElementById(bId).className='badge b-idle';document.getElementById(bId).textContent='Bekleniyor';
 }
 function drawHist(){
-  const canvas=document.getElementById('hist'),w=canvas.offsetWidth||300,h=64;
+  const canvas=document.getElementById('hist'),w=canvas.offsetWidth||300,h=80;
   canvas.width=w;canvas.height=h;
   const ctx=canvas.getContext('2d'),mid=h/2;
   ctx.fillStyle='#111';ctx.fillRect(0,0,w,h);
   ctx.strokeStyle='#222';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,mid);ctx.lineTo(w,mid);ctx.stroke();
   ctx.fillStyle='rgba(16,185,129,.08)';ctx.fillRect(0,mid-h*.09,w,h*.18);
   if(histData.length<2) return;
-  ctx.strokeStyle='#3b82f6';ctx.lineWidth=2;ctx.beginPath();
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=2.5;ctx.beginPath();
   histData.forEach((v,i)=>{
     const x=i/(histData.length-1)*w,y=mid-Math.max(-mid+2,Math.min(mid-2,v*(h/100)));
     i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
@@ -316,10 +356,11 @@ function selectStr(i){
   selectedStr=i;renderTelPanel();
   const t=hesaplaTeller(currentKarar)[i];
   document.getElementById('strNoteDisplay').textContent=t.tr;
-  document.getElementById('strTrDisplay').textContent=t.n+' - hedef: '+Math.round(t.f)+' Hz';
-  document.getElementById('strFreqDisplay').textContent='';
+  document.getElementById('strTargetNote').textContent=t.tr;
+  document.getElementById('strTargetFreq').textContent=Math.round(t.f)+' Hz';
+  document.getElementById('strFreqDisplay2').textContent='';
   resetNeedle('strNeedleFill','strBadge');
-  document.getElementById('strBadge').textContent='Teli cal';
+  document.getElementById('strBadge').textContent='Teli çal';
 }
 function loop(){
   analyser.getFloatTimeDomainData(buf);
@@ -330,25 +371,25 @@ function loop(){
     document.getElementById('noteTr').textContent=ref.n;
     document.getElementById('freqDisplay').textContent=freq.toFixed(1)+' Hz';
     updateNeedle(cents,'needleFill','statusBadge');
-    const koma=cents/KOMA,kf=document.getElementById('komaFill');
-    kf.style.left=Math.max(2,Math.min(98,50+(koma/4)*50))+'%';
-    kf.style.background=Math.abs(cents)<CENTS_OK?'#10b981':cents<0?'#f59e0b':'#ef4444';
-    document.getElementById('komaVal').textContent=(koma>0?'+':'')+koma.toFixed(2)+' k';
+    const koma=cents/KOMA,kf=document.getElementById('komaFillCircle');
+    kf.style.clipPath='polygon(50% 0%,'+(50+Math.max(-50,Math.min(50,koma*5.6)))+'% 0%,'+(50+Math.max(-50,Math.min(50,koma*5.6)))+'% 100%,50% 100%)';
+    kf.style.borderColor=Math.abs(cents)<CENTS_OK?'#10b981':cents<0?'#f59e0b':'#ef4444';
+    document.getElementById('komaVal').textContent=(koma>0?'+':'')+koma.toFixed(2);
     histData.push(cents);if(histData.length>180) histData.shift();drawHist();
     document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('lit',p.dataset.n===ref.n));
     if(selectedStr!==null){
       const tgt=hesaplaTeller(currentKarar)[selectedStr],tgtF=[];
       for(let o=0;o<6;o++) tgtF.push({n:tgt.n,tr:tgt.tr,f:tgt.f*Math.pow(2,o-1)});
       const {cents:sc}=findClosest(freq,tgtF);
-      document.getElementById('strNoteDisplay').textContent=tgt.tr;
-      document.getElementById('strTrDisplay').textContent=freq.toFixed(1)+' Hz  hedef '+Math.round(tgt.f)+' Hz';
+      document.getElementById('strNoteDisplay').textContent=ref.tr;
+      document.getElementById('strFreqDisplay2').textContent=freq.toFixed(1)+' Hz';
       updateNeedle(sc,'strNeedleFill','strBadge');
       for(let i=0;i<3;i++){
         const box=document.getElementById('telbox-'+i),bdg=document.getElementById('tel-badge-'+i);
         if(!box) continue;
         box.classList.remove('ok-str','lo-str','hi-str');
         if(i===selectedStr){
-          if(Math.abs(sc)<CENTS_OK){box.classList.add('ok-str');bdg.textContent='Akortlu';}
+          if(Math.abs(sc)<CENTS_OK){box.classList.add('ok-str');bdg.textContent='Akortlu ✓';}
           else if(sc<0){box.classList.add('lo-str');bdg.textContent='Pes '+Math.abs(Math.round(sc))+' sent';}
           else{box.classList.add('hi-str');bdg.textContent='Tiz '+Math.round(sc)+' sent';}
         } else bdg.textContent='';
@@ -356,14 +397,13 @@ function loop(){
     }
   } else {
     document.getElementById('noteDisplay').textContent='-';
-    document.getElementById('noteTr').textContent='Ses algilanmiyor';
+    document.getElementById('noteTr').textContent='Ses algılanmıyor';
     document.getElementById('freqDisplay').textContent='';
     resetNeedle('needleFill','statusBadge');
-    document.getElementById('komaVal').textContent='-';
-    document.getElementById('komaFill').style.left='50%';
-    document.getElementById('komaFill').style.background='#444';
+    document.getElementById('komaVal').textContent='–';
+    document.getElementById('komaFillCircle').style.borderColor='#2a2a2a';
     document.querySelectorAll('.pill').forEach(p=>p.classList.remove('lit'));
-    if(selectedStr!==null){resetNeedle('strNeedleFill','strBadge');document.getElementById('strBadge').textContent='Teli cal';}
+    if(selectedStr!==null){resetNeedle('strNeedleFill','strBadge');document.getElementById('strBadge').textContent='Teli çal';}
     histData.push(0);if(histData.length>180) histData.shift();drawHist();
   }
   rafId=requestAnimationFrame(loop);
@@ -378,10 +418,10 @@ async function toggleMic(){
     audioCtx.createMediaStreamSource(stream).connect(analyser);
     running=true;
     ['btnMic','btnMic2'].forEach(id=>{const b=document.getElementById(id);b.classList.add('active');b.textContent='Mikrofonu Durdur';});
-    document.getElementById('infoRow').textContent='Calgini cal - makama gore oluyor';
+    document.getElementById('infoRow').textContent='Çalgını çal - makama göre oluyor';
     loop();
   } catch(e){
-    alert('Mikrofon izni verilmedi.\n\nAdres cubugundaki kilit simgesine dokun\nSite ayarlari > Mikrofon > Izin ver\nSonra sayfayi yenile.');
+    alert('Mikrofon izni verilmedi.\n\nAdres çubuğundaki kilit simgesine dokun\nSite ayarları > Mikrofon > İzin ver\nSonra sayfayı yenile.');
   }
 }
 function stopMic(){
@@ -389,7 +429,7 @@ function stopMic(){
   if(stream) stream.getTracks().forEach(t=>t.stop());
   if(audioCtx) audioCtx.close();
   running=false;histData=[];
-  ['btnMic','btnMic2'].forEach(id=>{const b=document.getElementById(id);b.classList.remove('active');b.textContent='Mikrofonu Baslat';});
+  ['btnMic','btnMic2'].forEach(id=>{const b=document.getElementById(id);b.classList.remove('active');b.textContent='Mikrofonu Başlat';});
   drawHist();
 }
 renderPills();renderMakamOneri();renderKararGrid();renderTelPanel();drawHist();
