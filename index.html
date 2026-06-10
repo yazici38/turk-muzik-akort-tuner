@@ -316,8 +316,8 @@ function loop(){
   const freq=detectPitch(buf,audioCtx.sampleRate);
   if(freq&&freq>55&&freq<1800){
     const {ref,cents}=findClosest(freq,getAllFreqs());
-    document.getElementById('noteDisplay').textContent=ref.n;
-    document.getElementById('noteTr').textContent=ref.tr;
+    document.getElementById('noteDisplay').textContent=ref.tr;
+    document.getElementById('noteTr').textContent=ref.n;
     document.getElementById('freqDisplay').textContent=freq.toFixed(1)+' Hz';
     updateNeedle(cents,'needleFill','statusBadge');
     const koma=cents/KOMA,kf=document.getElementById('komaFill');
